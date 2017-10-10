@@ -20,8 +20,10 @@ RUN echo 'deb http://us.archive.ubuntu.com/ubuntu trusty main multiverse' >> /et
     pgplot5 \
     swig2.0 \
     python \
+    ipython \
     python-dev \
     python-pip \
+    python-tk \
     libfftw3-3 \
     libfftw3-bin \
     libfftw3-dev \
@@ -49,6 +51,9 @@ RUN pip install pip -U && \
     pip install numpy -U && \
     pip install scipy -U && \
     pip install watchdog && \
+    pip install h5py && \
+    pip install futures && \
+    pip install pysolr && \
     pip install matplotlib -U 
 
 # PGPLOT
@@ -67,7 +72,8 @@ RUN wget http://www.atnf.csiro.au/people/pulsar/psrcat/downloads/psrcat_pkg.tar.
     tar -xvf psrcat_pkg.tar.gz -C $PSRHOME && \
     git clone https://bitbucket.org/psrsoft/tempo2.git && \
     git clone git://git.code.sf.net/p/psrchive/code psrchive && \
-    git clone https://github.com/SixByNine/psrxml.git
+    git clone https://github.com/SixByNine/psrxml.git && \
+    git clone https://github.com/mserylak/coast_guard.git	
 
 # Psrcat
 ENV PSRCAT_FILE $PSRHOME/psrcat_tar/psrcat.db
@@ -119,5 +125,13 @@ WORKDIR $PSRHOME
 RUN echo "Predictor::default = tempo2" >> .psrchive.cfg && \
     echo "Predictor::policy = default" >> .psrchive.cfg
 
+# coast_guard
+ENV COAST_GUARD=$PSRHOME"/coast_guard" \
+    PATH=$PATH:$PSRHOME"/coast_guard":$PSRHOME"/coast_guard/coast_guard" \
+    COASTGUARD_CFG=$PSRHOME"/coast_guard/configurations" \
+    PYTHONPATH=$PYTHONPATH:$PSRHOME"/coast_guard":$PSRHOME"/coast_guard/coast_guard"
+
 ADD scripts/ /scripts/
 WORKDIR /scripts/
+
+
