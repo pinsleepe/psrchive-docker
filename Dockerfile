@@ -54,6 +54,8 @@ RUN pip install pip -U && \
     pip install h5py && \
     pip install futures && \
     pip install pysolr && \
+    pip install astroplan && \
+    pip install astropy && \
     pip install matplotlib -U 
 
 # PGPLOT
