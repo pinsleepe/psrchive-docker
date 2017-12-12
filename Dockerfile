@@ -133,7 +133,12 @@ ENV COAST_GUARD=$PSRHOME"/coast_guard" \
     COASTGUARD_CFG=$PSRHOME"/coast_guard/configurations" \
     PYTHONPATH=$PYTHONPATH:$PSRHOME"/coast_guard":$PSRHOME"/coast_guard/coast_guard"
 
-ADD scripts/ /scripts/
-WORKDIR /scripts/
+# Downloading all source codes
+RUN wget https://raw.githubusercontent.com/ska-sa/katpulse/master/RFI/archrfi.py -P /home
+RUN wget https://raw.githubusercontent.com/ska-sa/katpulse/master/RFI/archrfi_process_obs.py -P /home
+WORKDIR /home
+RUN chmod 755 archrfi_process_obs.py
+
+
 
 
